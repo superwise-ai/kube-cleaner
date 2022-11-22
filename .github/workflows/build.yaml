@@ -33,13 +33,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: actions/checkout@v3
+
       - name: Get package version
         id: package_version
         run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_OUTPUT
+        shell: bash -e
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
           tags: |
             ${{ github.repository }}:${{ steps.package_version.outputs.PACKAGE_VERSION }}
