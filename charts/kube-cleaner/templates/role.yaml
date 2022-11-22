@@ -11,16 +11,6 @@ rules:
     resources: [kopfpeerings]
     verbs: [list, watch, patch, get]
 
-  # Framework: posting the events about the handlers progress/errors.
-  - apiGroups: [""]
-    resources: [events]
-    verbs: [create]
-
-  # Application: watching & handling for the custom resource we declare.
-  - apiGroups: [dev.superwise.ai]
-    resources: ["*"]
-    verbs: [list, watch, patch]
-
 {{- if .Values.watchNamespace }}
 {{- include "kube-cleaner.role.rules.application" . | nindent 2 }}
 {{- end }}

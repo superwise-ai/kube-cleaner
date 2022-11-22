@@ -32,7 +32,7 @@ rules:
   # Application: read-only access for watching cluster-wide.
   - apiGroups: [dev.superwise.ai]
     resources: ["*"]
-    verbs: [list, watch]
+    verbs: [list, watch, patch]
 
 {{- if not .Values.watchNamespace }}
 {{- include "kube-cleaner.role.rules.application" . | nindent 2 }}
