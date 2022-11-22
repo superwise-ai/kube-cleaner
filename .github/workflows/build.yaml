@@ -46,5 +46,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ github.repository }}:${{ steps.package_version.outputs.PACKAGE_VERSION }}
-            ${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.PACKAGE_VERSION }}
+            ghcr.io/${{ github.repository }}:latest
