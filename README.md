@@ -6,7 +6,7 @@
 
 Kubernetes operator that performs a customized cleanup of completed or failed pods.  
 The operator is working with Kubernetes custom resource definitions that defines the cleanup policies.  
-Powered by [Kopf](https://github.com/nolar/kopf)
+Powered by [Kopf](https://github.com/nolar/kopf).
 
 # Custom resources
 
