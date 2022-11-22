@@ -37,29 +37,37 @@ def get_pod_last_transition_time(pod, reason):
     for condition in pod.status.conditions:
         if condition.reason == reason:
             return condition.last_transition_time
+    return False
 
 
 # Clean pod according to the defined rule
-def clean_pod_by_rule(pod, rule):
+def clean_pod_by_rule(pod, rule, policy):
     # Get the pod condition reason
     if pod.status.phase == "Failed":
         reason = "PodFailed"
     elif pod.status.phase == "Succeeded":
         reason = "PodCompleted"
 
+    # Get the rule time
+    rule_time = rule[pod.status.phase.lower()]
+
     # Get the pod last transition time
     last_transition_time = get_pod_last_transition_time(pod, reason)
 
-    # Define the time delta for the pod cleanup
-    delta = timedelta(seconds=convert_to_seconds(rule[pod.status.phase.lower()]))
+    # If the pod last_transition_time is not empty
+    if last_transition_time:
+        # Define the time delta for the pod cleanup
+        delta = timedelta(seconds=convert_to_seconds(rule_time))
 
-    # Remove the pod if older than the defined time
-    if datetime.now().timestamp() >= (last_transition_time + delta).timestamp():
-        try:
-            core_v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
-            logging.info(f'Pod {pod.metadata.namespace}/{pod.metadata.name} with phase "{pod.status.phase}" deleted.')
-        except Exception as e:
-            logging.error(f"Failed to delete pod {pod.metadata.namespace}/{pod.metadata.name}: {e.reason}")
+        # Remove the pod if older than the defined time
+        if datetime.now().timestamp() >= (last_transition_time + delta).timestamp():
+            try:
+                core_v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
+                logging.info(
+                    f'{policy} - pod {pod.metadata.namespace}/{pod.metadata.name} with phase "{pod.status.phase}" deleted (older than {rule_time}).'
+                )
+            except Exception as e:
+                logging.error(f"Failed to delete pod {pod.metadata.namespace}/{pod.metadata.name}: {e.reason}")
 
 
 # Cleanup pods according to the rules that are defined in the policy
@@ -81,7 +89,12 @@ def cleanup(body):
                 if (rule["failed"] and pod.status.phase == "Failed") or (
                     rule["succeeded"] and pod.status.phase == "Succeeded"
                 ):
-                    clean_pod_by_rule(pod, rule)
+                    policy = (
+                        f"{namespace}/{body['kind']}/{body['metadata']['name']}"
+                        if namespace
+                        else f"{body['kind']}/{body['metadata']['name']}"
+                    )
+                    clean_pod_by_rule(pod, rule, policy)
 
 
 ##################################
