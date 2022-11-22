@@ -8,7 +8,7 @@ Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf
 ```sh
 helm repo add kube-cleaner https://superwise-ai.github.io/kube-cleaner
 helm repo update
-helm install kube-cleaner kube-cleaner/kube-cleaner -n kube-cleaner --createNamespace
+helm install kube-cleaner kube-cleaner/kube-cleaner -n kube-cleaner --create-namespace
 ```
 
 ## Values
