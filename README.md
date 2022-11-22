@@ -10,11 +10,21 @@ Powered by [Kopf](https://github.com/nolar/kopf).
 
 # Custom resources
 
-The following Kubernetes CRs are available:
+## `CleanupPolicy` and `ClusterCleanupPolicy`
 
-- `CleanupPolicy` - a namespaced resource that can define one or more cleanup rules. All rules in this policy are scoped to the namespace.
-- `ClusterCleanupPolicy` - a cluster scope resources that can define one or more cleanup roles that will apply for the entire cluster (all namespaces).  
-  Detailed examples can be found in the [examples](examples) directory.
+The basic Kubernetes CR that is required for `kube-cleaner` is `CleanupPolicy`.  
+Each policy can define one or more cleanup rules. For each rule, the following parameters are supported:
+
+- `succeeded`: Clean succeeded pods after a certain time. The format is `1s`, `1m`, `1h`, `1d`, etc.  
+  If not provided, the cleanup will not include pods with this status.
+- `failed`: Clean failed pods. The concept and format is the same as `succeeded`.
+- `labelSelector`: Apply the rules above only to pods matching these labels, if provided.
+
+`ClusterCleanupPolicy` is using the same logic but it is a cluster-wide resource.  
+If created, the cleanup will include all pods in the cluster (all namespaces).  
+This CR requires more permissions so the `watchNamespace` parameter in the Helm chart should not be provided for it to work (by default, the operator is watching all namespaces).
+
+Detailed examples can be found in the [examples](examples) directory.
 
 The CRDs can be installed using the following command:
 
