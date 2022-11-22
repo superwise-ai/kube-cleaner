@@ -60,3 +60,13 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Role rules
+*/}}
+{{- define "kube-cleaner.role.rules.application" -}}
+# Application: allow cleanup of pods
+- apiGroups: [""]
+  resources: [pods]
+  verbs: [list, delete]
+{{- end }}
