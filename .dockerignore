@@ -1,0 +1,8 @@
+**/__pycache__/
+**/.venv/
+**/.git/
+**/Dockerfile
+**/.gitignore
+examples/
+charts/
+README.md

@@ -1,0 +1,16 @@
+{{- if not .Values.watchNamespace }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kube-cleaner.fullname" . }}-{{ .Release.Namespace }}
+  labels:
+    {{- include "kube-cleaner.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - "pods"
+    verbs:
+      - "list"
+      - "delete"
+{{- end }}

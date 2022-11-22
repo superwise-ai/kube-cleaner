@@ -1,0 +1,14 @@
+apiVersion: dev.superwise.ai/v1alpha1
+kind: CleanupPolicy
+metadata:
+  name: test
+  namespace: default
+spec:
+  rules:
+    - succeeded: 5m
+      labelSelector:
+        app: test
+    - failed: 60m
+      succeeded: 60m
+      labelSelector:
+        job-name: pi

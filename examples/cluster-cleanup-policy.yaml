@@ -1,0 +1,11 @@
+apiVersion: dev.superwise.ai/v1alpha1
+kind: ClusterCleanupPolicy
+metadata:
+  name: test
+spec:
+  rules:
+    - failed: 5m
+    - failed: 60m
+      succeeded: 60m
+      labelSelector:
+        job-name: pi

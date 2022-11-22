@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "kube-cleaner"
+version = "0.1.0"
+description = "Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf"
+authors = ["Roei Zavida <roeizavida@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "kube_cleaner" }]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+kopf = "^1.36.0"
+kubernetes = "^25.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

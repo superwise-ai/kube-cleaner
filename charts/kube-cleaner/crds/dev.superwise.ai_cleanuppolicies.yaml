@@ -1,0 +1,32 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: cleanuppolicies.dev.superwise.ai
+spec:
+  scope: Namespaced
+  group: dev.superwise.ai
+  names:
+    kind: CleanupPolicy
+    plural: cleanuppolicies
+    singular: cleanuppolicy
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
