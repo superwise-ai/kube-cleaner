@@ -33,13 +33,17 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-          {{- if .Values.watchNamespace }}
+            {{- if .Values.watchNamespace }}
             - --namespace
             - {{ .Values.watchNamespace }}
-          {{- else }}
+            {{- else }}
             - --all-namespaces
-          {{- end }}
-          {{- with .Values.extraArgs }}
+            {{- end }}
+            {{- with .Values.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.env }}
+          env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           resources:

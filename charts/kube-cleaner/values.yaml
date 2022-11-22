@@ -57,6 +57,11 @@ tolerations: []
 
 affinity: {}
 
+# -- Additional environment variables to inject
+env:
+  - name: KUBE_CLEANER_TIMER_INTERVAL
+    value: "300"
+
 # -- Additional command line arguments to pass
 extraArgs: []
 

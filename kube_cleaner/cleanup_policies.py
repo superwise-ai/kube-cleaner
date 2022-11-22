@@ -2,6 +2,7 @@
 # Modules
 ##################################
 import logging
+import os
 from datetime import datetime, timedelta
 
 import kopf
@@ -13,6 +14,11 @@ from kubernetes import client, config
 # Load Kubernetes config
 config.load_config()
 core_v1 = client.CoreV1Api()
+
+##################################
+# Environment Variables
+##################################
+timer_interval = int(os.getenv("KUBE_CLEANER_TIMER_INTERVAL", 300))
 
 ##################################
 # Functions
@@ -81,11 +87,11 @@ def cleanup(body):
 ##################################
 # Custom Resources
 ##################################
-@kopf.timer(kind="CleanupPolicy", group="dev.superwise.ai", interval=300)
+@kopf.timer(kind="CleanupPolicy", group="dev.superwise.ai", interval=timer_interval)
 def clean_namespaced_pods(body, **kwargs):
     cleanup(body)
 
 
-@kopf.timer(kind="ClusterCleanupPolicy", group="dev.superwise.ai", interval=300)
+@kopf.timer(kind="ClusterCleanupPolicy", group="dev.superwise.ai", interval=timer_interval)
 def clean_pods(body, **kwargs):
     cleanup(body)

@@ -14,27 +14,28 @@ helm install kube-cleaner kube-cleaner/kube-cleaner -n kube-cleaner --create-nam
 
 ## Values
 
-| Key                        | Type   | Default                               | Description                                                                                                            |
-| -------------------------- | ------ | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| affinity                   | object | `{}`                                  |                                                                                                                        |
-| extraArgs                  | list   | `[]`                                  | Additional command line arguments to pass                                                                              |
-| fullnameOverride           | string | `""`                                  |                                                                                                                        |
-| image.pullPolicy           | string | `"IfNotPresent"`                      |                                                                                                                        |
-| image.repository           | string | `"ghcr.io/superwise-ai/kube-cleaner"` |                                                                                                                        |
-| image.tag                  | string | `""`                                  | Overrides the image tag whose default is the chart appVersion.                                                         |
-| imagePullSecrets           | list   | `[]`                                  |                                                                                                                        |
-| nameOverride               | string | `""`                                  |                                                                                                                        |
-| nodeSelector               | object | `{}`                                  |                                                                                                                        |
-| podAnnotations             | object | `{}`                                  |                                                                                                                        |
-| podSecurityContext         | object | `{}`                                  |                                                                                                                        |
-| replicaCount               | int    | `1`                                   |                                                                                                                        |
-| resources                  | object | `{}`                                  |                                                                                                                        |
-| securityContext            | object | `{}`                                  |                                                                                                                        |
-| serviceAccount.annotations | object | `{}`                                  | Annotations to add to the service account                                                                              |
-| serviceAccount.create      | bool   | `true`                                | Specifies whether a service account should be created                                                                  |
-| serviceAccount.name        | string | `""`                                  | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| tolerations                | list   | `[]`                                  |                                                                                                                        |
-| watchNamespace             | string | `""`                                  | Namespace to watch. If not provided, the controller will watch all namespaces.                                         |
+| Key                        | Type   | Default                                                  | Description                                                                                                            |
+| -------------------------- | ------ | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| affinity                   | object | `{}`                                                     |                                                                                                                        |
+| env                        | list   | `[{"name":"KUBE_CLEANER_TIMER_INTERVAL","value":"300"}]` | Additional environment variables to inject                                                                             |
+| extraArgs                  | list   | `[]`                                                     | Additional command line arguments to pass                                                                              |
+| fullnameOverride           | string | `""`                                                     |                                                                                                                        |
+| image.pullPolicy           | string | `"IfNotPresent"`                                         |                                                                                                                        |
+| image.repository           | string | `"ghcr.io/superwise-ai/kube-cleaner"`                    |                                                                                                                        |
+| image.tag                  | string | `""`                                                     | Overrides the image tag whose default is the chart appVersion.                                                         |
+| imagePullSecrets           | list   | `[]`                                                     |                                                                                                                        |
+| nameOverride               | string | `""`                                                     |                                                                                                                        |
+| nodeSelector               | object | `{}`                                                     |                                                                                                                        |
+| podAnnotations             | object | `{}`                                                     |                                                                                                                        |
+| podSecurityContext         | object | `{}`                                                     |                                                                                                                        |
+| replicaCount               | int    | `1`                                                      |                                                                                                                        |
+| resources                  | object | `{}`                                                     |                                                                                                                        |
+| securityContext            | object | `{}`                                                     |                                                                                                                        |
+| serviceAccount.annotations | object | `{}`                                                     | Annotations to add to the service account                                                                              |
+| serviceAccount.create      | bool   | `true`                                                   | Specifies whether a service account should be created                                                                  |
+| serviceAccount.name        | string | `""`                                                     | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations                | list   | `[]`                                                     |                                                                                                                        |
+| watchNamespace             | string | `""`                                                     | Namespace to watch. If not provided, the controller will watch all namespaces.                                         |
 
 ---
 
