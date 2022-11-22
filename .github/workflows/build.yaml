@@ -38,7 +38,7 @@ jobs:
       - name: Get package version
         id: package_version
         run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_OUTPUT
-        shell: bash -e
+        shell: bash
 
       - name: Build and push
         uses: docker/build-push-action@v3
