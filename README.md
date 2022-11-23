@@ -8,12 +8,13 @@ Kubernetes operator that performs a customized cleanup of completed or failed po
 The operator is working with Kubernetes custom resource definitions that defines the cleanup policies.  
 Powered by [Kopf](https://github.com/nolar/kopf).
 
-# Custom resources
+## Custom resources
 
-## `CleanupPolicy` and `ClusterCleanupPolicy`
+### `CleanupPolicy` and `ClusterCleanupPolicy`
 
 The basic Kubernetes CR that is required for `kube-cleaner` is `CleanupPolicy`.  
-Each policy can define one or more cleanup rules. For each rule, the following parameters are supported:
+Each policy can define one or more cleanup rules. Rules are defined per resource type (currently only `pods` is supported).  
+For each rule, the following parameters are supported:
 
 - `succeeded`: Clean succeeded pods after a certain time. The format is `1s`, `1m`, `1h`, `1d`, etc.  
   If not provided, the cleanup will not include pods with this status.
@@ -32,16 +33,16 @@ The CRDs can be installed using the following command:
 kubectl apply -f charts/kube-cleaner/crds
 ```
 
-# Helm chart
+## Helm chart
 
 A Helm chart for deploying `kube-cleaner` is available for installation.  
 The docs are available in the chart [README](charts/kube-cleaner/README.md).
 
-# Docker image
+## Docker image
 
 The Docker image is available at: `ghcr.io/superwise-ai/kube-cleaner:latest`
 
-# Local development
+## Local development
 
 ```sh
 kopf run kube_cleaner/cleanup_policies.py -v
