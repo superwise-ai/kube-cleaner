@@ -40,7 +40,14 @@ The docs are available in the chart [README](charts/kube-cleaner/README.md).
 
 ## Docker image
 
-The Docker image is available at: `ghcr.io/superwise-ai/kube-cleaner:latest`
+The Docker image is available at: `ghcr.io/superwise-ai/kube-cleaner:latest`.  
+Additional information about the image is available at [GitHub Container Registry](https://github.com/superwise-ai/kube-cleaner/pkgs/container/kube-cleaner).
+
+### Build
+
+```sh
+docker build -t kube-cleaner .
+```
 
 ## Local development
 
