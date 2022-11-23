@@ -5,10 +5,11 @@ metadata:
   namespace: default
 spec:
   rules:
-    - succeeded: 5m
-      labelSelector:
-        app: test
-    - failed: 60m
-      succeeded: 60m
-      labelSelector:
-        job-name: pi
+    pods:
+      - succeeded: 5m
+        labelSelector:
+          app: test
+      - failed: 60m
+        succeeded: 60m
+        labelSelector:
+          job-name: pi

@@ -21,9 +21,24 @@ spec:
             metadata:
               type: object
             spec:
+              properties:
+                rules:
+                  properties:
+                    pods:
+                      items:
+                        properties:
+                          failed:
+                            type: string
+                          labelSelector:
+                            type: object
+                          succeeded:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+              required:
+                - rules
               type: object
-              x-kubernetes-map-type: atomic
-              x-kubernetes-preserve-unknown-fields: true
           required:
             - metadata
             - spec

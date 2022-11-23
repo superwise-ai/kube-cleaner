@@ -4,8 +4,8 @@ metadata:
   name: test
 spec:
   rules:
-    - failed: 5m
-    - failed: 60m
-      succeeded: 60m
-      labelSelector:
-        job-name: pi
+    pods:
+      - failed: 10s
+        succeeded: 1m
+        labelSelector:
+          job-name: pi2
