@@ -1,8 +1,5 @@
-**/__pycache__/
-**/.venv/
-**/.git/
-**/Dockerfile
-**/.gitignore
-examples/
-charts/
-README.md
+**/*
+!poetry.lock
+!pyproject.toml
+!kube_cleaner/
+kube_cleaner/**/__pycache__/
