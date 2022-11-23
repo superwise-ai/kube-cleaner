@@ -57,7 +57,7 @@ tolerations: []
 
 affinity: {}
 
-# -- Additional environment variables to inject
+# -- Environment variables to inject
 env:
   - name: KUBE_CLEANER_TIMER_INTERVAL
     value: "300"
@@ -67,3 +67,42 @@ extraArgs: []
 
 # -- Namespace to watch. If not provided, the controller will watch all namespaces.
 watchNamespace: ""
+
+# -- Create cleanup policies using the chart
+cleanupPolicies:
+  {}
+  # The cleanupPolicies parameter supports definition of policies using multiple objects.
+  # This allowed the usage of multiple values files without overriding the values.
+  # For each object (example1, example2), an array of policies can be provided.
+  # Each policy in the array requires the `type`, `name` and `rules` fields.
+  # The `namespace` field is only required when `type` is `namespaced` and defaults to the release namespace.
+  # example1:
+  #   - type: cluster
+  #     name: test-cluster
+  #     rules:
+  #       pods:
+  #         - succeeded: 1h
+  #           failed: 1h
+  #         - failed: 5m
+  #           labelSelector:
+  #             foo: bar
+  #   - type: namespaced
+  #     namespace: default
+  #     name: test-namespaced
+  #     rules:
+  #       pods:
+  #         - succeeded: 1h
+  #           failed: 1h
+  #         - failed: 5m
+  #           labelSelector:
+  #             foo: bar
+  # example2:
+  #   - type: namespaced
+  #     name: test-namespaced-2
+  #     rules:
+  #       pods:
+  #         - succeeded: 1h
+  #           failed: 1h
+  #         - failed: 5m
+  #           labelSelector:
+  #             foo: bar

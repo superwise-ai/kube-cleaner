@@ -1,0 +1,24 @@
+{{- if .Values.cleanupPolicies }}
+{{- $helmRoot := . }}
+{{- range $k, $v := .Values.cleanupPolicies }}
+{{- range $cleanupPolicy := $v }}
+---
+apiVersion: dev.superwise.ai/v1alpha1
+{{- if eq $cleanupPolicy.type "namespaced" }}
+kind: CleanupPolicy
+{{- else if eq $cleanupPolicy.type "cluster" }}
+kind: ClusterCleanupPolicy
+{{- end }}
+metadata:
+  name: {{ $cleanupPolicy.name }}
+  {{- if eq $cleanupPolicy.type "namespaced" }}
+  namespace: {{ $cleanupPolicy.namespace | default $helmRoot.Release.Namespace }}
+  {{- end }}
+spec:
+  rules:
+    {{- with $cleanupPolicy.rules }}
+    {{- toYaml . | nindent 6 -}}
+    {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
