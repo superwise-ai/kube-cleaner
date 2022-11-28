@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kube-cleaner"
-version = "0.1.0"
+version = "0.1.1"
 description = "Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf"
 authors = ["Roei Zavida <roeizavida@users.noreply.github.com>"]
 license = "MIT"
