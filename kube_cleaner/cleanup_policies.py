@@ -35,9 +35,10 @@ def convert_to_seconds(s: Text):
 
 def get_pod_last_transition_time(pod: client.V1Pod, reason: Text):
     """Get pod last transition time for a condition reason"""
-    for condition in pod.status.conditions:
-        if condition.reason == reason:
-            return condition.last_transition_time
+    if hasattr(pod.status, "conditions") and pod.status.conditions:
+        for condition in pod.status.conditions:
+            if condition.reason and condition.reason == reason:
+                return condition.last_transition_time
     return False
 
 
