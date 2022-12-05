@@ -50,6 +50,32 @@ def get_label_selector(rule: Dict):
     return label_selector
 
 
+def pod_terminated(rule: Dict, pod: client.V1Pod):
+    """Check if pod has been terminated"""
+    if (
+        rule["includeTerminated"]
+        and hasattr(pod.status, "reason")
+        and pod.status.reason
+        and pod.status.reason == "Terminated"
+    ):
+        return True
+    return False
+
+
+def delete_pod(rule: Dict, rule_time: Text, policy: Text, pod: client.V1Pod):
+    """Delete a pod according to the rule"""
+    deleted_msg = f'{policy} - pod {pod.metadata.namespace}/{pod.metadata.name} with phase "{pod.status.phase}" deleted (older than {rule_time}).'
+    if "dryRun" in rule and rule["dryRun"]:
+        deleted_msg = f"[Dry-run] {deleted_msg}"
+        logging.info(deleted_msg)
+    else:
+        try:
+            core_v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
+            logging.info(deleted_msg)
+        except Exception as e:
+            logging.error(f"Failed to delete pod {pod.metadata.namespace}/{pod.metadata.name}: {e.reason}")
+
+
 def cleanup_pods_by_rule(rule: Dict, policy_kind: Text, policy_name: Text, namespace=None, label_selector=None):
     """Cleanup pods by a rule defined in the policy"""
     if namespace:
@@ -61,6 +87,8 @@ def cleanup_pods_by_rule(rule: Dict, policy_kind: Text, policy_name: Text, names
             if ("failed" in rule and rule["failed"] and pod.status.phase == "Failed") or (
                 "succeeded" in rule and rule["succeeded"] and pod.status.phase == "Succeeded"
             ):
+                # Define if the pod should be deleted
+                should_be_deleted = False
                 # Define the policy identifier for the log message
                 policy = f"{namespace}/{policy_kind}/{policy_name}" if namespace else f"{policy_kind}/{policy_name}"
                 # Get the pod condition reason
@@ -76,17 +104,15 @@ def cleanup_pods_by_rule(rule: Dict, policy_kind: Text, policy_name: Text, names
                 if last_transition_time:
                     # Define the time delta for the pod cleanup
                     delta = timedelta(seconds=convert_to_seconds(rule_time))
-                    # Remove the pod if older than the defined time
+                    # The pod should be deleted if older than the defined time
                     if datetime.now().timestamp() >= (last_transition_time + delta).timestamp():
-                        try:
-                            core_v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
-                            logging.info(
-                                f'{policy} - pod {pod.metadata.namespace}/{pod.metadata.name} with phase "{pod.status.phase}" deleted (older than {rule_time}).'
-                            )
-                        except Exception as e:
-                            logging.error(
-                                f"Failed to delete pod {pod.metadata.namespace}/{pod.metadata.name}: {e.reason}"
-                            )
+                        should_be_deleted = True
+                # The pod should be deleted if it was terminated and includeTerminated is "true"
+                elif "includeTerminated" in rule and rule["includeTerminated"] and pod_terminated(rule, pod):
+                    should_be_deleted = True
+                # Delete the pod
+                if should_be_deleted:
+                    delete_pod(rule, rule_time, policy, pod)
 
 
 def cleanup(body: Dict):

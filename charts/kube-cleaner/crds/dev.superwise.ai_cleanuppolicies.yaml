@@ -33,6 +33,10 @@ spec:
                             type: object
                           succeeded:
                             type: string
+                          includeTerminated:
+                            type: boolean
+                          dryRun:
+                            type: boolean
                         type: object
                       type: array
                   type: object
