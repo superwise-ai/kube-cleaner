@@ -21,6 +21,7 @@ core_v1 = client.CoreV1Api()
 ##################################
 timer_interval = int(os.getenv("KUBE_CLEANER_TIMER_INTERVAL", 300))
 
+
 ##################################
 # Functions
 ##################################
@@ -56,7 +57,7 @@ def pod_terminated(rule: Dict, pod: client.V1Pod):
         rule["includeTerminated"]
         and hasattr(pod.status, "reason")
         and pod.status.reason
-        and pod.status.reason == "Terminated"
+        and pod.status.reason in ["Terminated", "Evicted"]
     ):
         return True
     return False
