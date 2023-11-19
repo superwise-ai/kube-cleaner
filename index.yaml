@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   kube-cleaner:
   - apiVersion: v2
+    appVersion: 0.1.3
+    created: "2023-11-19T16:09:13.912220745Z"
+    description: Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf
+    digest: 2a2ec3705f94eb5a3b13c688f3bd2e95e02c2107cfed03b86e7d5df89d83c075
+    name: kube-cleaner
+    type: application
+    urls:
+    - https://github.com/superwise-ai/kube-cleaner/releases/download/kube-cleaner-0.1.3/kube-cleaner-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: 0.1.2
     created: "2022-12-05T13:57:05.768071845Z"
     description: Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf
@@ -31,4 +41,4 @@ entries:
     urls:
     - https://github.com/superwise-ai/kube-cleaner/releases/download/kube-cleaner-0.1.0/kube-cleaner-0.1.0.tgz
     version: 0.1.0
-generated: "2022-12-05T13:57:05.768083745Z"
+generated: "2023-11-19T16:09:13.912262563Z"
