@@ -2,7 +2,7 @@ FROM python:3.10-alpine
 
 WORKDIR /app
 
-RUN pip install poetry==1.2.0
+RUN pip install poetry==1.7.0
 
 COPY poetry.lock pyproject.toml ./
 

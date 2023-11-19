@@ -2,5 +2,5 @@ apiVersion: v2
 name: kube-cleaner
 description: Kubernetes Operator for Kubernetes Pods cleanup. Powered by Kopf
 type: application
-version: 0.1.2
-appVersion: "0.1.2"
+version: 0.1.3
+appVersion: "0.1.3"
