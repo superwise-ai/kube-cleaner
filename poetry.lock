@@ -670,7 +670,7 @@ files = [
 ]
 
 [package.dependencies]
-pyasn1 = ">=0.1.3"
+pyasn1 = ">=0.1.4"
 
 [[package]]
 name = "setuptools"
