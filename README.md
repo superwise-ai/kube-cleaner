@@ -20,6 +20,7 @@ For each rule, the following parameters are supported:
   If not provided, the cleanup will not include pods with this status.
 - `failed`: Clean failed pods. The concept and format is the same as `succeeded`.
 - `labelSelector`: Apply the rules above only to pods matching these labels, if provided.
+- `exclusionLabelSelector`: Exclude pods matching these labels from the rule.
 - `includeTerminated`: Include pods that were terminated (`true`/`false`).
 - `dryRun`: Dry-run - prints a log but skips the deletion of the resource. (`true`/`false`).
 
