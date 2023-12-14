@@ -45,10 +45,12 @@ def get_pod_last_transition_time(pod: client.V1Pod, reason: Text):
 
 def get_label_selector(rule: Dict):
     """Get the label selector from the rule"""
-    label_selector = (
-        ",".join(f"{key}={value}" for key, value in rule["labelSelector"].items()) if "labelSelector" in rule else None
-    )
-    return label_selector
+    label_selector = []
+    if "labelSelector" in rule:
+        label_selector.extend([f"{key}={value}" for key, value in rule["labelSelector"].items()])
+    if "exclusionLabelSelector" in rule:
+        label_selector.extend([f"{key}!={value}" for key, value in rule["exclusionLabelSelector"].items()])
+    return ",".join(label_selector) if label_selector else None
 
 
 def pod_terminated(rule: Dict, pod: client.V1Pod):

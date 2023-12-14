@@ -31,12 +31,18 @@ spec:
                             type: string
                           labelSelector:
                             type: object
+                            additionalProperties:
+                              type: string
                           succeeded:
                             type: string
                           includeTerminated:
                             type: boolean
                           dryRun:
                             type: boolean
+                          exclusionLabelSelector:
+                            type: object
+                            additionalProperties:
+                              type: string
                         type: object
                       type: array
                   type: object
